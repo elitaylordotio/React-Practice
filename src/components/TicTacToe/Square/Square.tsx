@@ -2,25 +2,21 @@ import React, { Component } from 'react';
 import styles from './Square.module.scss';
 
 interface ISquareProps {
-  squareValue: number
+  squareValue: string,
+  onClick: Function
 }
 
-interface ISquareState {
-  value: any
-}
-
-class Square extends React.Component<ISquareProps, ISquareState> {
+class Square extends React.Component<ISquareProps> {
   constructor(props : ISquareProps) {
     super(props);
-    this.state = { value: null };
 }
 
   render() {
     return (
       <button 
       className={styles.square}
-      onClick={()=>this.setState({value: 'X'})}>
-        {this.state.value}
+      onClick={() => this.props.onClick()}>
+        {this.props.squareValue}
       </button>
     );
   }

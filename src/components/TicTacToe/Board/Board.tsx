@@ -1,14 +1,35 @@
 import React, { Component } from 'react';
 import styles from './Board.module.scss';
 import Square from '../Square/Square';
+import BoardLogic from './Board';
 
-class Board extends React.Component {
+interface IBoardState {
+  board: string[];
+}
+
+class Board extends React.Component<{}, IBoardState> {
+  private boardController: BoardLogic;
+  constructor(props: {}) {
+    super(props);
+    this.boardController = new BoardLogic();
+    this.state = {
+      board: this.boardController.boardState();
+    }
+  }
+
   renderSquare(i: any) {
-    return <Square squareValue={i}/>;
+    return <Square squareValue={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
   }
 
   render() {
-    const status = 'Next player: X';
+    const winner = this.calculateWinner(this.state.squares);
+    let status;
+    if (winner) {
+      status = `Winner ${winner}`;
+    } else {
+      status = `Next player: ${this.state.nextPlayer ? 'X' : 'O'}`;
+    }
+
 
     return (
       <div>
